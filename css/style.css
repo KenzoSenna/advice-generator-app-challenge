@@ -38,8 +38,9 @@ body {
 
 .app {
   /* O botão ultrapassa a borda inferior do card em metade da própria
-     altura; o respiro simétrico reserva essa área sem descentralizar o card */
-  padding: calc(var(--advice-button-size) / 2 + 1.5rem) 1rem;
+     altura, e o rótulo dele aparece logo abaixo; o respiro simétrico
+     reserva essa área sem descentralizar o card */
+  padding: calc(var(--advice-button-size) / 2 + 3rem) 1rem;
 }
 
 /* Foco
@@ -139,9 +140,46 @@ body {
   cursor: progress;
 }
 
+.advice-card__button-label {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 50%;
+  width: max-content;
+  max-width: 12rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  background-color: var(--color-blue-200);
+  color: var(--color-blue-950);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  transform: translateX(-50%);
+  /* Recortado até o botão receber hover ou foco, sem sair da árvore de
+     acessibilidade: o texto continua sendo o nome acessível do botão */
+  clip-path: inset(50%);
+}
+
+/* Ponte invisível sobre o espaço entre o botão e o rótulo: o ponteiro
+   chega até o rótulo sem que ele desapareça no caminho (WCAG 1.4.13) */
+.advice-card__button-label::before {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 0.75rem;
+  content: "";
+}
+
+.advice-card__button:focus-visible:not([data-label-dismissed]) .advice-card__button-label {
+  clip-path: none;
+}
+
 @media (hover: hover) {
   .advice-card__button:hover {
     box-shadow: 0 0 2.5rem var(--color-green-300);
+  }
+
+  .advice-card__button:hover:not([data-label-dismissed]) .advice-card__button-label {
+    clip-path: none;
   }
 }
 
@@ -232,5 +270,9 @@ body {
 
   .advice-card__button:hover {
     border-color: Highlight;
+  }
+
+  .advice-card__button-label {
+    border: 1px solid CanvasText;
   }
 }

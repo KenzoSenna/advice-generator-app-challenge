@@ -126,5 +126,20 @@
     }
   };
 
+  // Esc oculta o rótulo visível do botão sem mover o foco nem o ponteiro;
+  // ele volta no próximo foco ou hover (WCAG 1.4.13)
+  const dismissButtonLabel = (event) => {
+    if (event.key === "Escape") {
+      elements.button.setAttribute("data-label-dismissed", "");
+    }
+  };
+
+  const restoreButtonLabel = () => {
+    elements.button.removeAttribute("data-label-dismissed");
+  };
+
   elements.button.addEventListener("click", handleGenerateClick);
+  elements.button.addEventListener("focus", restoreButtonLabel);
+  elements.button.addEventListener("pointerenter", restoreButtonLabel);
+  document.addEventListener("keydown", dismissButtonLabel);
 })();
