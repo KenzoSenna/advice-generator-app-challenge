@@ -19,6 +19,7 @@
   --font-family-base: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --advice-button-size: 4rem;
+  --focus-ring-width: 0.1875rem;
 
   /* Personalização do Bootstrap pelas próprias variáveis CSS */
   --bs-body-font-family: var(--font-family-base);
@@ -39,6 +40,17 @@ body {
   /* O botão ultrapassa a borda inferior do card em metade da própria
      altura; o respiro simétrico reserva essa área sem descentralizar o card */
   padding: calc(var(--advice-button-size) / 2 + 1.5rem) 1rem;
+}
+
+/* Foco
+   ========================================================================== */
+
+/* Contorno de 3px na cor blue-200: 11,38:1 sobre o fundo e 8,56:1 sobre o
+   card. outline, ao contrário de box-shadow, continua visível no modo de
+   cores forçadas */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-blue-200);
+  outline-offset: 0.25rem;
 }
 
 /* Card de conselho
@@ -172,6 +184,11 @@ body {
 
 .attribution a:hover {
   text-decoration-thickness: 0.15em;
+}
+
+.attribution a:focus-visible {
+  border-radius: 0.125rem;
+  outline-offset: 0.125rem;
 }
 
 /* Telas médias e grandes
