@@ -214,3 +214,23 @@ body {
     margin-top: 2.5rem;
   }
 }
+
+/* Modo de cores forçadas (como os temas de contraste do Windows)
+   ========================================================================== */
+
+@media (forced-colors: active) {
+  /* O sistema substitui fundos e remove sombras; bordas explícitas
+     preservam os limites do card e do botão */
+  .advice-card {
+    --bs-card-border-width: 1px;
+    --bs-card-border-color: CanvasText;
+  }
+
+  .advice-card__button {
+    border: 0.125rem solid ButtonText;
+  }
+
+  .advice-card__button:hover {
+    border-color: Highlight;
+  }
+}
