@@ -24,10 +24,18 @@
   </style>
 </head>
 <body>
+  <main class="app">
+    <h1 class="visually-hidden">Advice generator</h1>
 
-  Advice #<!-- Advice ID goes here -->
-
-  "<!-- Advice text goes here -->"
+    <article class="advice-card" aria-labelledby="advice-heading">
+      <h2 class="advice-card__heading" id="advice-heading">
+        Advice <span aria-hidden="true">#</span><span class="visually-hidden">number </span>71
+      </h2>
+      <blockquote class="advice-card__quote" cite="https://api.adviceslip.com/advice/71">
+        <p>It is easy to sit up and take notice, what's difficult is getting up and taking action.</p>
+      </blockquote>
+    </article>
+  </main>
 
   <footer class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
