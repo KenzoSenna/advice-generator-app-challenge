@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Advice generator app
+   Estilos mobile-first aplicados sobre o Bootstrap 5.3
+   ========================================================================== */
+
+/* Tokens de design
+   ========================================================================== */
+
+:root {
+  /* Paleta do style-guide.md */
+  --color-blue-200: hsl(193 38% 86%);
+  --color-green-300: hsl(150 100% 66%);
+  --color-blue-900: hsl(217 19% 24%);
+  --color-blue-950: hsl(218 23% 16%);
+
+  --font-family-base: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Personalização do Bootstrap pelas próprias variáveis CSS */
+  --bs-body-font-family: var(--font-family-base);
+  --bs-body-font-weight: 800;
+  --bs-body-color: var(--color-blue-200);
+  --bs-body-bg: var(--color-blue-950);
+}
