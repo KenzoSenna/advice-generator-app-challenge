@@ -142,4 +142,6 @@
   elements.button.addEventListener("focus", restoreButtonLabel);
   elements.button.addEventListener("pointerenter", restoreButtonLabel);
   document.addEventListener("keydown", dismissButtonLabel);
+
+  elements.button.hidden = false;
 })();
