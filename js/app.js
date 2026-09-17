@@ -8,9 +8,12 @@
   const API_URL = "https://api.adviceslip.com/advice";
   const REQUEST_TIMEOUT_MS = 8000;
   const MAX_ATTEMPTS = 3;
+  const ERROR_MESSAGE =
+    "Sorry, we couldn't load new advice. Please check your connection and try again.";
 
   const elements = {
     button: document.querySelector("[data-advice-button]"),
+    error: document.querySelector("[data-advice-error]"),
     id: document.querySelector("[data-advice-id]"),
     quote: document.querySelector("[data-advice-quote]"),
     text: document.querySelector("[data-advice-text]"),
@@ -81,11 +84,15 @@
     }
 
     state.isLoading = true;
+    elements.error.textContent = "";
 
     try {
       const advice = await fetchDifferentAdvice(state.currentId);
       state.currentId = advice.id;
       renderAdvice(advice);
+    } catch (error) {
+      elements.error.textContent = ERROR_MESSAGE;
+      console.error(error);
     } finally {
       state.isLoading = false;
     }
