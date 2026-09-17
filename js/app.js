@@ -14,6 +14,20 @@
     text: document.querySelector("[data-advice-text]"),
   };
 
+  const parseSlip = (payload) => {
+    const slip = payload?.slip;
+    const hasValidShape =
+      Number.isInteger(slip?.id) &&
+      typeof slip?.advice === "string" &&
+      slip.advice.trim() !== "";
+
+    if (!hasValidShape) {
+      throw new TypeError("Unexpected response format from the Advice Slip API");
+    }
+
+    return { id: slip.id, text: slip.advice.trim() };
+  };
+
   const requestAdvice = async () => {
     // A API envia Cache-Control com max-age; sem "no-store" o navegador
     // reaproveita a resposta anterior e o conselho não muda a cada clique.
@@ -23,9 +37,7 @@
       throw new Error(`Advice Slip API responded with HTTP ${response.status}`);
     }
 
-    const { slip } = await response.json();
-
-    return { id: slip.id, text: slip.advice };
+    return parseSlip(await response.json());
   };
 
   const renderAdvice = ({ id, text }) => {
