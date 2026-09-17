@@ -107,3 +107,15 @@ body {
   color: var(--color-blue-950);
   transform: translate(-50%, 50%);
 }
+
+@media (hover: hover) {
+  .advice-card__button:hover {
+    box-shadow: 0 0 2.5rem var(--color-green-300);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .advice-card__button {
+    transition: box-shadow 0.25s ease-out;
+  }
+}
