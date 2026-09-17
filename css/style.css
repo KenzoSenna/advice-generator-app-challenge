@@ -137,6 +137,23 @@ body {
   .advice-card__button {
     transition: box-shadow 0.25s ease-out;
   }
+
+  .advice-card__button[aria-disabled="true"] .advice-card__icon {
+    animation: advice-card-roll 0.8s linear infinite;
+  }
+}
+
+/* Sem animação, o carregamento é indicado apenas esmaecendo o ícone */
+@media (prefers-reduced-motion: reduce) {
+  .advice-card__button[aria-disabled="true"] .advice-card__icon {
+    opacity: 0.5;
+  }
+}
+
+@keyframes advice-card-roll {
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 /* Créditos
