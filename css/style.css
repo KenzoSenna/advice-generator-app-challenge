@@ -120,6 +120,24 @@ body {
   }
 }
 
+/* Créditos
+   ========================================================================== */
+
+.attribution {
+  padding: 0 1rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.attribution a {
+  color: var(--color-green-300);
+  text-underline-offset: 0.2em;
+}
+
+.attribution a:hover {
+  text-decoration-thickness: 0.15em;
+}
+
 /* Telas médias e grandes
    ========================================================================== */
 
