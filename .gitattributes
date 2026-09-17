@@ -1,0 +1,9 @@
+# Normaliza os finais de linha para LF no repositório e na cópia de trabalho,
+# independentemente do core.autocrlf configurado em cada máquina.
+* text=auto eol=lf
+
+# Binários: sem conversão de finais de linha nem diff textual
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.ico binary

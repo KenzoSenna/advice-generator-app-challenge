@@ -1,0 +1,278 @@
+/* ==========================================================================
+   Advice generator app
+   Estilos mobile-first aplicados sobre o Bootstrap 5.3
+   ========================================================================== */
+
+/* Tokens de design
+   ========================================================================== */
+
+:root {
+  /* Paleta do style-guide.md */
+  --color-blue-200: hsl(193 38% 86%);
+  --color-green-300: hsl(150 100% 66%);
+  --color-blue-900: hsl(217 19% 24%);
+  --color-blue-950: hsl(218 23% 16%);
+
+  /* Extensão da paleta para mensagens de erro (7,18:1 sobre o card) */
+  --color-red-200: hsl(0 100% 87%);
+
+  --font-family-base: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --advice-button-size: 4rem;
+  --focus-ring-width: 0.1875rem;
+
+  /* Personalização do Bootstrap pelas próprias variáveis CSS */
+  --bs-body-font-family: var(--font-family-base);
+  --bs-body-font-weight: 800;
+  --bs-body-color: var(--color-blue-200);
+  --bs-body-bg: var(--color-blue-950);
+}
+
+/* Layout
+   ========================================================================== */
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.app {
+  /* O botão ultrapassa a borda inferior do card em metade da própria
+     altura, e o rótulo dele aparece logo abaixo; o respiro simétrico
+     reserva essa área sem descentralizar o card */
+  padding: calc(var(--advice-button-size) / 2 + 3rem) 1rem;
+}
+
+/* Foco
+   ========================================================================== */
+
+/* Contorno de 3px na cor blue-200: 11,38:1 sobre o fundo e 8,56:1 sobre o
+   card. outline, ao contrário de box-shadow, continua visível no modo de
+   cores forçadas */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-blue-200);
+  outline-offset: 0.25rem;
+}
+
+/* Card de conselho
+   ========================================================================== */
+
+.advice-card {
+  --bs-card-bg: var(--color-blue-900);
+  --bs-card-border-width: 0;
+  --bs-card-border-radius: 0.625rem;
+
+  width: 100%;
+  max-width: 33.75rem;
+  padding: 2.5rem 1.5rem 4rem;
+  box-shadow: 1.875rem 3.125rem 5rem hsl(0 0% 0% / 0.1);
+}
+
+.advice-card__heading {
+  --advice-heading-tracking: 0.3125em;
+
+  margin-bottom: 1.5rem;
+  /* O letter-spacing também é aplicado depois do último caractere; um
+     recuo equivalente à esquerda mantém o texto opticamente centralizado */
+  padding-left: var(--advice-heading-tracking);
+  color: var(--color-green-300);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  letter-spacing: var(--advice-heading-tracking);
+}
+
+.advice-card__quote {
+  font-size: 1.5rem;
+  line-height: 1.375;
+  letter-spacing: -0.3px;
+  quotes: "\201C" "\201D";
+}
+
+.advice-card__quote p::before {
+  content: open-quote;
+}
+
+.advice-card__quote p::after {
+  content: close-quote;
+}
+
+.advice-card__error {
+  margin: 1.5rem 0 0;
+  color: var(--color-red-200);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Vazio, o alerta continua na árvore de acessibilidade sem ocupar espaço */
+.advice-card__error:empty {
+  margin: 0;
+}
+
+.advice-card__divider {
+  display: block;
+  margin-top: 1.5rem;
+}
+
+.advice-card__divider img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.advice-card__button {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: var(--advice-button-size);
+  height: var(--advice-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--color-green-300);
+  color: var(--color-blue-950);
+  transform: translate(-50%, 50%);
+}
+
+.advice-card__button[aria-disabled="true"] {
+  cursor: progress;
+}
+
+.advice-card__button-label {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 50%;
+  width: max-content;
+  max-width: 12rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  background-color: var(--color-blue-200);
+  color: var(--color-blue-950);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  transform: translateX(-50%);
+  /* Recortado até o botão receber hover ou foco, sem sair da árvore de
+     acessibilidade: o texto continua sendo o nome acessível do botão */
+  clip-path: inset(50%);
+}
+
+/* Ponte invisível sobre o espaço entre o botão e o rótulo: o ponteiro
+   chega até o rótulo sem que ele desapareça no caminho (WCAG 1.4.13) */
+.advice-card__button-label::before {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 0.75rem;
+  content: "";
+}
+
+.advice-card__button:focus-visible:not([data-label-dismissed]) .advice-card__button-label {
+  clip-path: none;
+}
+
+@media (hover: hover) {
+  .advice-card__button:hover {
+    box-shadow: 0 0 2.5rem var(--color-green-300);
+  }
+
+  .advice-card__button:hover:not([data-label-dismissed]) .advice-card__button-label {
+    clip-path: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .advice-card__button {
+    transition: box-shadow 0.25s ease-out;
+  }
+
+  .advice-card__button[aria-disabled="true"] .advice-card__icon {
+    animation: advice-card-roll 0.8s linear infinite;
+  }
+}
+
+/* Sem animação, o carregamento é indicado apenas esmaecendo o ícone */
+@media (prefers-reduced-motion: reduce) {
+  .advice-card__button[aria-disabled="true"] .advice-card__icon {
+    opacity: 0.5;
+  }
+}
+
+@keyframes advice-card-roll {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* Créditos
+   ========================================================================== */
+
+.attribution {
+  padding: 0 1rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.attribution a {
+  color: var(--color-green-300);
+  text-underline-offset: 0.2em;
+}
+
+.attribution a:hover {
+  text-decoration-thickness: 0.15em;
+}
+
+.attribution a:focus-visible {
+  border-radius: 0.125rem;
+  outline-offset: 0.125rem;
+}
+
+/* Telas médias e grandes
+   ========================================================================== */
+
+@media (min-width: 37.5em) {
+  .advice-card {
+    --bs-card-border-radius: 0.9375rem;
+
+    padding: 3rem 3rem 4.5rem;
+  }
+
+  .advice-card__heading {
+    font-size: 0.8125rem;
+  }
+
+  .advice-card__quote {
+    font-size: 1.75rem;
+    line-height: 1.357;
+  }
+
+  .advice-card__divider {
+    margin-top: 2.5rem;
+  }
+}
+
+/* Modo de cores forçadas (como os temas de contraste do Windows)
+   ========================================================================== */
+
+@media (forced-colors: active) {
+  /* O sistema substitui fundos e remove sombras; bordas explícitas
+     preservam os limites do card e do botão */
+  .advice-card {
+    --bs-card-border-width: 1px;
+    --bs-card-border-color: CanvasText;
+  }
+
+  .advice-card__button {
+    border: 0.125rem solid ButtonText;
+  }
+
+  .advice-card__button:hover {
+    border-color: Highlight;
+  }
+
+  .advice-card__button-label {
+    border: 1px solid CanvasText;
+  }
+}
