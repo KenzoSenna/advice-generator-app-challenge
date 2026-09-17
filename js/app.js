@@ -8,20 +8,22 @@
   const API_URL = "https://api.adviceslip.com/advice";
   const REQUEST_TIMEOUT_MS = 8000;
   const MAX_ATTEMPTS = 3;
+  const LOADING_MESSAGE_DELAY_MS = 1000;
+  const LOADING_MESSAGE = "Loading new advice, please wait.";
   const ERROR_MESSAGE =
     "Sorry, we couldn't load new advice. Please check your connection and try again.";
 
   const elements = {
     button: document.querySelector("[data-advice-button]"),
+    content: document.querySelector("[data-advice-content]"),
     error: document.querySelector("[data-advice-error]"),
-    id: document.querySelector("[data-advice-id]"),
-    quote: document.querySelector("[data-advice-quote]"),
-    text: document.querySelector("[data-advice-text]"),
+    status: document.querySelector("[data-advice-status]"),
   };
 
   const state = {
-    currentId: Number(elements.id.textContent),
+    currentId: Number(elements.content.querySelector("[data-advice-id]").textContent),
     isLoading: false,
+    loadingMessageTimer: 0,
   };
 
   const parseSlip = (payload) => {
@@ -73,9 +75,35 @@
   };
 
   const renderAdvice = ({ id, text }) => {
-    elements.id.textContent = id;
-    elements.text.textContent = text;
-    elements.quote.cite = `${API_URL}/${id}`;
+    // Monta o novo conteúdo fora do DOM e o troca em uma única mutação: a
+    // região live atômica é anunciada uma vez, e não uma vez por nó alterado.
+    const draft = elements.content.cloneNode(true);
+
+    draft.querySelector("[data-advice-id]").textContent = id;
+    draft.querySelector("[data-advice-text]").textContent = text;
+    draft.querySelector("[data-advice-quote]").cite = `${API_URL}/${id}`;
+
+    elements.content.replaceChildren(...draft.childNodes);
+  };
+
+  const setLoading = (isLoading) => {
+    state.isLoading = isLoading;
+    window.clearTimeout(state.loadingMessageTimer);
+    elements.status.textContent = "";
+
+    if (!isLoading) {
+      elements.button.removeAttribute("aria-disabled");
+      return;
+    }
+
+    // Ao contrário do atributo disabled, aria-disabled mantém o botão
+    // focável: quem navega por teclado ou leitor de tela não perde a posição.
+    elements.button.setAttribute("aria-disabled", "true");
+
+    // Respostas rápidas dispensam aviso; só a espera perceptível é anunciada.
+    state.loadingMessageTimer = window.setTimeout(() => {
+      elements.status.textContent = LOADING_MESSAGE;
+    }, LOADING_MESSAGE_DELAY_MS);
   };
 
   const handleGenerateClick = async () => {
@@ -83,7 +111,7 @@
       return;
     }
 
-    state.isLoading = true;
+    setLoading(true);
     elements.error.textContent = "";
 
     try {
@@ -94,9 +122,24 @@
       elements.error.textContent = ERROR_MESSAGE;
       console.error(error);
     } finally {
-      state.isLoading = false;
+      setLoading(false);
     }
   };
 
+  // Esc oculta o rótulo visível do botão sem mover o foco nem o ponteiro;
+  // ele volta no próximo foco ou hover (WCAG 1.4.13)
+  const dismissButtonLabel = (event) => {
+    if (event.key === "Escape") {
+      elements.button.setAttribute("data-label-dismissed", "");
+    }
+  };
+
+  const restoreButtonLabel = () => {
+    elements.button.removeAttribute("data-label-dismissed");
+  };
+
   elements.button.addEventListener("click", handleGenerateClick);
+  elements.button.addEventListener("focus", restoreButtonLabel);
+  elements.button.addEventListener("pointerenter", restoreButtonLabel);
+  document.addEventListener("keydown", dismissButtonLabel);
 })();

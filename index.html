@@ -25,14 +25,17 @@
     <h1 class="visually-hidden">Advice generator</h1>
 
     <article class="card advice-card text-center" aria-labelledby="advice-heading">
-      <h2 class="advice-card__heading text-uppercase" id="advice-heading">
-        Advice <span aria-hidden="true">#</span><span class="visually-hidden">number </span><span data-advice-id>71</span>
-      </h2>
-      <blockquote class="advice-card__quote mb-0" cite="https://api.adviceslip.com/advice/71" data-advice-quote>
-        <p class="mb-0" data-advice-text>It is easy to sit up and take notice, what's difficult is getting up and taking action.</p>
-      </blockquote>
+      <div aria-live="polite" aria-atomic="true" data-advice-content>
+        <h2 class="advice-card__heading text-uppercase" id="advice-heading">
+          Advice <span aria-hidden="true">#</span><span class="visually-hidden">number </span><span data-advice-id>71</span>
+        </h2>
+        <blockquote class="advice-card__quote mb-0" cite="https://api.adviceslip.com/advice/71" data-advice-quote>
+          <p class="mb-0" data-advice-text>It is easy to sit up and take notice, what's difficult is getting up and taking action.</p>
+        </blockquote>
+      </div>
 
       <p class="advice-card__error" role="alert" data-advice-error></p>
+      <p class="visually-hidden" role="status" data-advice-status></p>
 
       <picture class="advice-card__divider">
         <source media="(min-width: 37.5em)" srcset="./images/pattern-divider-desktop.svg" width="444" height="16">
@@ -43,7 +46,7 @@
         <svg class="advice-card__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="currentColor" d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/>
         </svg>
-        <span class="visually-hidden">Generate new advice</span>
+        <span class="advice-card__button-label">Generate new advice</span>
       </button>
     </article>
   </main>

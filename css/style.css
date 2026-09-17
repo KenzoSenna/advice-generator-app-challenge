@@ -19,6 +19,7 @@
   --font-family-base: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --advice-button-size: 4rem;
+  --focus-ring-width: 0.1875rem;
 
   /* Personalização do Bootstrap pelas próprias variáveis CSS */
   --bs-body-font-family: var(--font-family-base);
@@ -37,8 +38,20 @@ body {
 
 .app {
   /* O botão ultrapassa a borda inferior do card em metade da própria
-     altura; o respiro simétrico reserva essa área sem descentralizar o card */
-  padding: calc(var(--advice-button-size) / 2 + 1.5rem) 1rem;
+     altura, e o rótulo dele aparece logo abaixo; o respiro simétrico
+     reserva essa área sem descentralizar o card */
+  padding: calc(var(--advice-button-size) / 2 + 3rem) 1rem;
+}
+
+/* Foco
+   ========================================================================== */
+
+/* Contorno de 3px na cor blue-200: 11,38:1 sobre o fundo e 8,56:1 sobre o
+   card. outline, ao contrário de box-shadow, continua visível no modo de
+   cores forçadas */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-blue-200);
+  outline-offset: 0.25rem;
 }
 
 /* Card de conselho
@@ -123,15 +136,73 @@ body {
   transform: translate(-50%, 50%);
 }
 
+.advice-card__button[aria-disabled="true"] {
+  cursor: progress;
+}
+
+.advice-card__button-label {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 50%;
+  width: max-content;
+  max-width: 12rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  background-color: var(--color-blue-200);
+  color: var(--color-blue-950);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  transform: translateX(-50%);
+  /* Recortado até o botão receber hover ou foco, sem sair da árvore de
+     acessibilidade: o texto continua sendo o nome acessível do botão */
+  clip-path: inset(50%);
+}
+
+/* Ponte invisível sobre o espaço entre o botão e o rótulo: o ponteiro
+   chega até o rótulo sem que ele desapareça no caminho (WCAG 1.4.13) */
+.advice-card__button-label::before {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 0.75rem;
+  content: "";
+}
+
+.advice-card__button:focus-visible:not([data-label-dismissed]) .advice-card__button-label {
+  clip-path: none;
+}
+
 @media (hover: hover) {
   .advice-card__button:hover {
     box-shadow: 0 0 2.5rem var(--color-green-300);
+  }
+
+  .advice-card__button:hover:not([data-label-dismissed]) .advice-card__button-label {
+    clip-path: none;
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .advice-card__button {
     transition: box-shadow 0.25s ease-out;
+  }
+
+  .advice-card__button[aria-disabled="true"] .advice-card__icon {
+    animation: advice-card-roll 0.8s linear infinite;
+  }
+}
+
+/* Sem animação, o carregamento é indicado apenas esmaecendo o ícone */
+@media (prefers-reduced-motion: reduce) {
+  .advice-card__button[aria-disabled="true"] .advice-card__icon {
+    opacity: 0.5;
+  }
+}
+
+@keyframes advice-card-roll {
+  to {
+    transform: rotate(1turn);
   }
 }
 
@@ -151,6 +222,11 @@ body {
 
 .attribution a:hover {
   text-decoration-thickness: 0.15em;
+}
+
+.attribution a:focus-visible {
+  border-radius: 0.125rem;
+  outline-offset: 0.125rem;
 }
 
 /* Telas médias e grandes
@@ -174,5 +250,29 @@ body {
 
   .advice-card__divider {
     margin-top: 2.5rem;
+  }
+}
+
+/* Modo de cores forçadas (como os temas de contraste do Windows)
+   ========================================================================== */
+
+@media (forced-colors: active) {
+  /* O sistema substitui fundos e remove sombras; bordas explícitas
+     preservam os limites do card e do botão */
+  .advice-card {
+    --bs-card-border-width: 1px;
+    --bs-card-border-color: CanvasText;
+  }
+
+  .advice-card__button {
+    border: 0.125rem solid ButtonText;
+  }
+
+  .advice-card__button:hover {
+    border-color: Highlight;
+  }
+
+  .advice-card__button-label {
+    border: 1px solid CanvasText;
   }
 }
