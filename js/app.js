@@ -15,6 +15,10 @@
     text: document.querySelector("[data-advice-text]"),
   };
 
+  const state = {
+    isLoading: false,
+  };
+
   const parseSlip = (payload) => {
     const slip = payload?.slip;
     const hasValidShape =
@@ -58,8 +62,18 @@
   };
 
   const handleGenerateClick = async () => {
-    const advice = await requestAdvice();
-    renderAdvice(advice);
+    if (state.isLoading) {
+      return;
+    }
+
+    state.isLoading = true;
+
+    try {
+      const advice = await requestAdvice();
+      renderAdvice(advice);
+    } finally {
+      state.isLoading = false;
+    }
   };
 
   elements.button.addEventListener("click", handleGenerateClick);
