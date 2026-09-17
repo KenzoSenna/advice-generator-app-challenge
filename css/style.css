@@ -119,3 +119,27 @@ body {
     transition: box-shadow 0.25s ease-out;
   }
 }
+
+/* Telas médias e grandes
+   ========================================================================== */
+
+@media (min-width: 37.5em) {
+  .advice-card {
+    --bs-card-border-radius: 0.9375rem;
+
+    padding: 3rem 3rem 4.5rem;
+  }
+
+  .advice-card__heading {
+    font-size: 0.8125rem;
+  }
+
+  .advice-card__quote {
+    font-size: 1.75rem;
+    line-height: 1.357;
+  }
+
+  .advice-card__divider {
+    margin-top: 2.5rem;
+  }
+}
