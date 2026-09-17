@@ -1,0 +1,163 @@
+/* ==========================================================================
+   Advice generator app
+   Estilos mobile-first aplicados sobre o Bootstrap 5.3
+   ========================================================================== */
+
+/* Tokens de design
+   ========================================================================== */
+
+:root {
+  /* Paleta do style-guide.md */
+  --color-blue-200: hsl(193 38% 86%);
+  --color-green-300: hsl(150 100% 66%);
+  --color-blue-900: hsl(217 19% 24%);
+  --color-blue-950: hsl(218 23% 16%);
+
+  --font-family-base: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --advice-button-size: 4rem;
+
+  /* Personalização do Bootstrap pelas próprias variáveis CSS */
+  --bs-body-font-family: var(--font-family-base);
+  --bs-body-font-weight: 800;
+  --bs-body-color: var(--color-blue-200);
+  --bs-body-bg: var(--color-blue-950);
+}
+
+/* Layout
+   ========================================================================== */
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.app {
+  /* O botão ultrapassa a borda inferior do card em metade da própria
+     altura; o respiro simétrico reserva essa área sem descentralizar o card */
+  padding: calc(var(--advice-button-size) / 2 + 1.5rem) 1rem;
+}
+
+/* Card de conselho
+   ========================================================================== */
+
+.advice-card {
+  --bs-card-bg: var(--color-blue-900);
+  --bs-card-border-width: 0;
+  --bs-card-border-radius: 0.625rem;
+
+  width: 100%;
+  max-width: 33.75rem;
+  padding: 2.5rem 1.5rem 4rem;
+  box-shadow: 1.875rem 3.125rem 5rem hsl(0 0% 0% / 0.1);
+}
+
+.advice-card__heading {
+  --advice-heading-tracking: 0.3125em;
+
+  margin-bottom: 1.5rem;
+  /* O letter-spacing também é aplicado depois do último caractere; um
+     recuo equivalente à esquerda mantém o texto opticamente centralizado */
+  padding-left: var(--advice-heading-tracking);
+  color: var(--color-green-300);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  letter-spacing: var(--advice-heading-tracking);
+}
+
+.advice-card__quote {
+  font-size: 1.5rem;
+  line-height: 1.375;
+  letter-spacing: -0.3px;
+  quotes: "\201C" "\201D";
+}
+
+.advice-card__quote p::before {
+  content: open-quote;
+}
+
+.advice-card__quote p::after {
+  content: close-quote;
+}
+
+.advice-card__divider {
+  display: block;
+  margin-top: 1.5rem;
+}
+
+.advice-card__divider img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.advice-card__button {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: var(--advice-button-size);
+  height: var(--advice-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--color-green-300);
+  color: var(--color-blue-950);
+  transform: translate(-50%, 50%);
+}
+
+@media (hover: hover) {
+  .advice-card__button:hover {
+    box-shadow: 0 0 2.5rem var(--color-green-300);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .advice-card__button {
+    transition: box-shadow 0.25s ease-out;
+  }
+}
+
+/* Créditos
+   ========================================================================== */
+
+.attribution {
+  padding: 0 1rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.attribution a {
+  color: var(--color-green-300);
+  text-underline-offset: 0.2em;
+}
+
+.attribution a:hover {
+  text-decoration-thickness: 0.15em;
+}
+
+/* Telas médias e grandes
+   ========================================================================== */
+
+@media (min-width: 37.5em) {
+  .advice-card {
+    --bs-card-border-radius: 0.9375rem;
+
+    padding: 3rem 3rem 4.5rem;
+  }
+
+  .advice-card__heading {
+    font-size: 0.8125rem;
+  }
+
+  .advice-card__quote {
+    font-size: 1.75rem;
+    line-height: 1.357;
+  }
+
+  .advice-card__divider {
+    margin-top: 2.5rem;
+  }
+}
