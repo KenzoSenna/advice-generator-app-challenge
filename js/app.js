@@ -7,6 +7,7 @@
 
   const API_URL = "https://api.adviceslip.com/advice";
   const REQUEST_TIMEOUT_MS = 8000;
+  const MAX_ATTEMPTS = 3;
 
   const elements = {
     button: document.querySelector("[data-advice-button]"),
@@ -16,6 +17,7 @@
   };
 
   const state = {
+    currentId: Number(elements.id.textContent),
     isLoading: false,
   };
 
@@ -55,6 +57,18 @@
     }
   };
 
+  const fetchDifferentAdvice = async (currentId) => {
+    let advice = await requestAdvice();
+
+    // O sorteio da API pode repetir o conselho exibido; nesse caso o card
+    // não mudaria e o clique pareceria não ter funcionado.
+    for (let attempt = 1; attempt < MAX_ATTEMPTS && advice.id === currentId; attempt += 1) {
+      advice = await requestAdvice();
+    }
+
+    return advice;
+  };
+
   const renderAdvice = ({ id, text }) => {
     elements.id.textContent = id;
     elements.text.textContent = text;
@@ -69,7 +83,8 @@
     state.isLoading = true;
 
     try {
-      const advice = await requestAdvice();
+      const advice = await fetchDifferentAdvice(state.currentId);
+      state.currentId = advice.id;
       renderAdvice(advice);
     } finally {
       state.isLoading = false;
