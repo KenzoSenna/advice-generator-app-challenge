@@ -13,14 +13,12 @@
 
   const elements = {
     button: document.querySelector("[data-advice-button]"),
+    content: document.querySelector("[data-advice-content]"),
     error: document.querySelector("[data-advice-error]"),
-    id: document.querySelector("[data-advice-id]"),
-    quote: document.querySelector("[data-advice-quote]"),
-    text: document.querySelector("[data-advice-text]"),
   };
 
   const state = {
-    currentId: Number(elements.id.textContent),
+    currentId: Number(elements.content.querySelector("[data-advice-id]").textContent),
     isLoading: false,
   };
 
@@ -73,9 +71,15 @@
   };
 
   const renderAdvice = ({ id, text }) => {
-    elements.id.textContent = id;
-    elements.text.textContent = text;
-    elements.quote.cite = `${API_URL}/${id}`;
+    // Monta o novo conteúdo fora do DOM e o troca em uma única mutação: a
+    // região live atômica é anunciada uma vez, e não uma vez por nó alterado.
+    const draft = elements.content.cloneNode(true);
+
+    draft.querySelector("[data-advice-id]").textContent = id;
+    draft.querySelector("[data-advice-text]").textContent = text;
+    draft.querySelector("[data-advice-quote]").cite = `${API_URL}/${id}`;
+
+    elements.content.replaceChildren(...draft.childNodes);
   };
 
   const handleGenerateClick = async () => {

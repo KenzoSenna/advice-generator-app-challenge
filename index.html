@@ -25,12 +25,14 @@
     <h1 class="visually-hidden">Advice generator</h1>
 
     <article class="card advice-card text-center" aria-labelledby="advice-heading">
-      <h2 class="advice-card__heading text-uppercase" id="advice-heading">
-        Advice <span aria-hidden="true">#</span><span class="visually-hidden">number </span><span data-advice-id>71</span>
-      </h2>
-      <blockquote class="advice-card__quote mb-0" cite="https://api.adviceslip.com/advice/71" data-advice-quote>
-        <p class="mb-0" data-advice-text>It is easy to sit up and take notice, what's difficult is getting up and taking action.</p>
-      </blockquote>
+      <div aria-live="polite" aria-atomic="true" data-advice-content>
+        <h2 class="advice-card__heading text-uppercase" id="advice-heading">
+          Advice <span aria-hidden="true">#</span><span class="visually-hidden">number </span><span data-advice-id>71</span>
+        </h2>
+        <blockquote class="advice-card__quote mb-0" cite="https://api.adviceslip.com/advice/71" data-advice-quote>
+          <p class="mb-0" data-advice-text>It is easy to sit up and take notice, what's difficult is getting up and taking action.</p>
+        </blockquote>
+      </div>
 
       <p class="advice-card__error" role="alert" data-advice-error></p>
 
