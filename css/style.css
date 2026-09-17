@@ -13,6 +13,9 @@
   --color-blue-900: hsl(217 19% 24%);
   --color-blue-950: hsl(218 23% 16%);
 
+  /* Extensão da paleta para mensagens de erro (7,18:1 sobre o card) */
+  --color-red-200: hsl(0 100% 87%);
+
   --font-family-base: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --advice-button-size: 4rem;
@@ -78,6 +81,18 @@ body {
 
 .advice-card__quote p::after {
   content: close-quote;
+}
+
+.advice-card__error {
+  margin: 1.5rem 0 0;
+  color: var(--color-red-200);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Vazio, o alerta continua na árvore de acessibilidade sem ocupar espaço */
+.advice-card__error:empty {
+  margin: 0;
 }
 
 .advice-card__divider {
