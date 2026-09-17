@@ -6,6 +6,7 @@
   "use strict";
 
   const API_URL = "https://api.adviceslip.com/advice";
+  const REQUEST_TIMEOUT_MS = 8000;
 
   const elements = {
     button: document.querySelector("[data-advice-button]"),
@@ -29,15 +30,25 @@
   };
 
   const requestAdvice = async () => {
-    // A API envia Cache-Control com max-age; sem "no-store" o navegador
-    // reaproveita a resposta anterior e o conselho não muda a cada clique.
-    const response = await fetch(API_URL, { cache: "no-store" });
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
-    if (!response.ok) {
-      throw new Error(`Advice Slip API responded with HTTP ${response.status}`);
+    try {
+      // A API envia Cache-Control com max-age; sem "no-store" o navegador
+      // reaproveita a resposta anterior e o conselho não muda a cada clique.
+      const response = await fetch(API_URL, {
+        cache: "no-store",
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Advice Slip API responded with HTTP ${response.status}`);
+      }
+
+      return parseSlip(await response.json());
+    } finally {
+      window.clearTimeout(timeoutId);
     }
-
-    return parseSlip(await response.json());
   };
 
   const renderAdvice = ({ id, text }) => {
