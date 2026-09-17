@@ -123,6 +123,10 @@ body {
   transform: translate(-50%, 50%);
 }
 
+.advice-card__button[aria-disabled="true"] {
+  cursor: progress;
+}
+
 @media (hover: hover) {
   .advice-card__button:hover {
     box-shadow: 0 0 2.5rem var(--color-green-300);

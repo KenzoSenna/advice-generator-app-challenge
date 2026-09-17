@@ -8,6 +8,8 @@
   const API_URL = "https://api.adviceslip.com/advice";
   const REQUEST_TIMEOUT_MS = 8000;
   const MAX_ATTEMPTS = 3;
+  const LOADING_MESSAGE_DELAY_MS = 1000;
+  const LOADING_MESSAGE = "Loading new advice, please wait.";
   const ERROR_MESSAGE =
     "Sorry, we couldn't load new advice. Please check your connection and try again.";
 
@@ -15,11 +17,13 @@
     button: document.querySelector("[data-advice-button]"),
     content: document.querySelector("[data-advice-content]"),
     error: document.querySelector("[data-advice-error]"),
+    status: document.querySelector("[data-advice-status]"),
   };
 
   const state = {
     currentId: Number(elements.content.querySelector("[data-advice-id]").textContent),
     isLoading: false,
+    loadingMessageTimer: 0,
   };
 
   const parseSlip = (payload) => {
@@ -82,12 +86,32 @@
     elements.content.replaceChildren(...draft.childNodes);
   };
 
+  const setLoading = (isLoading) => {
+    state.isLoading = isLoading;
+    window.clearTimeout(state.loadingMessageTimer);
+    elements.status.textContent = "";
+
+    if (!isLoading) {
+      elements.button.removeAttribute("aria-disabled");
+      return;
+    }
+
+    // Ao contrário do atributo disabled, aria-disabled mantém o botão
+    // focável: quem navega por teclado ou leitor de tela não perde a posição.
+    elements.button.setAttribute("aria-disabled", "true");
+
+    // Respostas rápidas dispensam aviso; só a espera perceptível é anunciada.
+    state.loadingMessageTimer = window.setTimeout(() => {
+      elements.status.textContent = LOADING_MESSAGE;
+    }, LOADING_MESSAGE_DELAY_MS);
+  };
+
   const handleGenerateClick = async () => {
     if (state.isLoading) {
       return;
     }
 
-    state.isLoading = true;
+    setLoading(true);
     elements.error.textContent = "";
 
     try {
@@ -98,7 +122,7 @@
       elements.error.textContent = ERROR_MESSAGE;
       console.error(error);
     } finally {
-      state.isLoading = false;
+      setLoading(false);
     }
   };
 
