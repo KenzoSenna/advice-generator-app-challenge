@@ -91,3 +91,19 @@ body {
   height: auto;
   margin-inline: auto;
 }
+
+.advice-card__button {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: var(--advice-button-size);
+  height: var(--advice-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--color-green-300);
+  color: var(--color-blue-950);
+  transform: translate(-50%, 50%);
+}
