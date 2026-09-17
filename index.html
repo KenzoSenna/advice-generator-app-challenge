@@ -17,6 +17,8 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="./css/style.css">
+
+  <script src="./js/app.js" defer></script>
 </head>
 <body class="d-flex flex-column">
   <main class="app flex-grow-1 d-flex align-items-center justify-content-center">
@@ -24,10 +26,10 @@
 
     <article class="card advice-card text-center" aria-labelledby="advice-heading">
       <h2 class="advice-card__heading text-uppercase" id="advice-heading">
-        Advice <span aria-hidden="true">#</span><span class="visually-hidden">number </span>71
+        Advice <span aria-hidden="true">#</span><span class="visually-hidden">number </span><span data-advice-id>71</span>
       </h2>
-      <blockquote class="advice-card__quote mb-0" cite="https://api.adviceslip.com/advice/71">
-        <p class="mb-0">It is easy to sit up and take notice, what's difficult is getting up and taking action.</p>
+      <blockquote class="advice-card__quote mb-0" cite="https://api.adviceslip.com/advice/71" data-advice-quote>
+        <p class="mb-0" data-advice-text>It is easy to sit up and take notice, what's difficult is getting up and taking action.</p>
       </blockquote>
 
       <picture class="advice-card__divider">
@@ -35,7 +37,7 @@
         <img src="./images/pattern-divider-mobile.svg" alt="" width="295" height="16">
       </picture>
 
-      <button class="advice-card__button" type="button">
+      <button class="advice-card__button" type="button" data-advice-button>
         <svg class="advice-card__icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="currentColor" d="M20 0H4a4.005 4.005 0 0 0-4 4v16a4.005 4.005 0 0 0 4 4h16a4.005 4.005 0 0 0 4-4V4a4.005 4.005 0 0 0-4-4ZM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/>
         </svg>
